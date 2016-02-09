@@ -5,15 +5,10 @@ var express =  require("express"),
     app = express(),
     path = require('path'),
     cookieParser = require('cookie-parser'),
-    session = require('express-session'),
     config = require('./config/config.js'),
-   /* ConnectMongo = require('connect-mongo')(session),
-    mongoose = require('mongoose').connect(config.dbURL),*/
-    passport = require('passport'),
-    FacebookStrategy = require('passport-facebook').Strategy,
     bodyParser = require('body-parser'),
     wit = require('node-wit'),
-    fs = require('fs');
+    norm = require('./magic/norm.js');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -55,7 +50,7 @@ if(env==='development'){
 /*app.use(passport.initialize());
 app.use(passport.session());
 require('./auth/passportAuth.js')(passport, FacebookStrategy, config, mongoose);*/
- require('./routes/routes.js')(express, app, wit, config);
+ require('./routes/routes.js')(express, app, wit, config, norm);
 
 
 app.set('port', process.env.PORT || 3000 );

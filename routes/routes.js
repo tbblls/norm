@@ -1,7 +1,7 @@
 /**
  * Created by Adam on 5/18/2015.
  */
-module.exports = function(express, app, wit, config){
+module.exports = function(express, app, wit, config, norm){
     var router = express.Router();
 
     router.use(function(req, res, next) {
@@ -18,28 +18,51 @@ module.exports = function(express, app, wit, config){
         res.render('index', {title:'Norm'})
     });
 
+    router.get('/test', function(req, res, next){
+        res.render('test', {title:'Norm'})
+    });
+
+   /* router.post('/norm/api/message', function(req, response){
+        var message = req.body.message;
+        console.log(message);
+        var result =  function (err, res) {
+         console.log("Response from Wit for text input: ");
+         if (err) {
+         console.log("Error: ", err);
+         }else{
+         var returnMsg = JSON.stringify(res, null, " ");
+         console.log(returnMsg);
+             response.header("Access-Control-Allow-Origin", "*");
+             response.status(200).json(returnMsg);
+            // return response.json({'data':'some content'});
+             response.end();
+         }
+         };
+
+         wit.captureTextIntent(config.witAccessToken, message, result);
+
+       // return res.send({'data':'test'});
+       //  return res.send('test');
+    });*/
+
     router.route('/norm/api/message')
+        .post(function(request, response) {
+           var message = request.body.message;
 
-        //post a message to NORM (accessed at POST http://localhost:8080/api/message)
-        .post(function(req, res) {
+           var result =  function (err, res) {
+                if (err) {
+                    console.log("Error: ", err);
+                }else{
 
-            var response = res;
+                    var result = norm.processMessage(res);
+                    console.log(result);
 
-            var message = req.body.message;
-            console.log(message);
+                    response.status(200).json(result);
+                    response.end();
+                }
+            };
 
-            wit.captureTextIntent(config.witAccessToken, message, function (err, res) {
-                console.log("Response from Wit for text input: ");
-                if (err) console.log("Error: ", err);
-                console.log(JSON.stringify(res, null, " "));
-                var returnMsg = JSON.stringify(res, null, " ");
-                response.json(returnMsg);
-
-            });
-
-
-
-
+           wit.captureTextIntent(config.witAccessToken, message, result);
         });
 
 

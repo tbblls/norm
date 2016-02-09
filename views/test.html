@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <title>{{title}}</title>
+    <style>
+        .tabContainer{
+            min-width: 300px;
+            max-width: 300px;
+            min-height: 300px;
+            background-color: #000088;
+        }
+        .tabNav{
+            background-color: #0b97c4;
+        }
+        .tabNav ul{
+            list-style: none;
+            padding: 0px;
+            margin:0px;
+        }
+        .tabNav li{
+            display: inline;
+            margin: 0;
+        }
+        .tabNav a{
+            margin: 0;
+            padding: 0 70px;
+
+        }
+        .tab{
+            display:none ;
+        }
+        .active{
+             display:block ;
+         }
+        .currentTab{
+            background-color: #000066;
+            color: white;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="tabContainer">
+        <div class="tabNav">
+            <ul>
+                <li><a title="1" href="#1" class="currentTab">1</a></li>
+                <li><a title="2" href="#2">2</a></li>
+            </ul>
+        </div>
+        <div id="1" class="tab active">
+            <p>tab1</p>
+        </div>
+        <div id="2" class="tab">
+            <p>tab2</p>
+        </div>
+    </div>
+
+
+    <script>
+        $(document).ready(function() {
+            $('.tabNav a').on('click', function(){
+                var id = $(this).attr('title');
+                $("#"+id).toggle();
+            });
+
+        });
+    </script>
+</body>
+</html>

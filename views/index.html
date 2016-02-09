@@ -1,14 +1,40 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <title>{{title}}</title>
+
 </head>
 <body>
     <h1>Welcome to Norm!</h1>
-    <form  method="POST" action="/norm/api/message">
+    <form id="form">
         <input type="text" name="message" />
-        <input type="submit">
+        <button name="submitMsg">Submit</button>
     </form>
+
+    <script>
+        $(document).ready(function() {
+            $("form").submit(function(e){
+                e.preventDefault();
+                var msg = $("[name='message']").val();
+
+                $.post( "/norm/api/message", {message: msg}, function(data) {
+                    alert( data.result[0]);
+                })
+                .done(function() {})
+                .fail(function(xhr, textStatus, errorThrown) {
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                    console.log(xhr);
+                })
+                .always(function() {});
+
+            });
+            $("submitMsg").click(function(){
+                $("form").submit();
+            });
+
+        });
+    </script>
 </body>
 </html>
